@@ -14,10 +14,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
-from Producto_ms import views
+from apps.machine import views as viewMachine
+from apps.product import views as viewProduct
 
 urlpatterns = [
-    path('producto/', views.ProductoListCreateView.as_view()),
-    path('producto/<int:pk>', views.ProductoRetrieveUpdateDestroy.as_view()),
+    path('product/',                   
+        viewProduct.ProductListCreateView.as_view()),  # create and get all products
+    path('product/<int:pk>',           
+        viewProduct.ProductRetrieveUpdateDestroy.as_view()), # get, update and destroy by id_product
+    path('create/machine/',                    
+         viewMachine.CreateMachine.as_view()),  # create  machine
+    path('machine/',                    
+         viewMachine.ListMachine.as_view()),  # list machines
+    path('machine/<int:pk>',                    
+         viewMachine.MachineDetail.as_view()),  # update and destroy machine
+    path('machine/allactive/',
+         viewMachine.AllActiveMachines.as_view()),  # get all machines actives        
+    path('machine/user/<int:user_id>',
+         viewMachine.UserMachines.as_view()),       # get machines filter by user_id
+    path('machine/bycity/<str:city>',
+         viewMachine.MachinesByCity.as_view()),     # get machines filter by city
 ]

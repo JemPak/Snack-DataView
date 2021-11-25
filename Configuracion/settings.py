@@ -10,12 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import django_heroku
 from pathlib import Path
-from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -24,10 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!oy!@1j9jsxi1so1zi91saww!@7_farpx%+3m849u_82i%l&$='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-
-
+DEBUG = False
 
 # Application definition
 
@@ -39,19 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'Producto_ms',
+    'apps.product',
+    'apps.machine',
 ]
-
-SIMPLE_JWT = {
-'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-'ROTATE_REFRESH_TOKENS': False,
-'BLACKLIST_AFTER_ROTATION': False,
-'UPDATE_LAST_LOGIN': False,
-'ALGORITHM': 'HS256',
-'USER_ID_FIELD': 'id',
-'USER_ID_CLAIM': 'user_id',
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,12 +50,9 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-'DEFAULT_PERMISSION_CLASSES': (
-'rest_framework.permissions.AllowAny',
-),
-'DEFAULT_AUTHENTICATION_CLASSES': (
-'rest_framework_simplejwt.authentication.JWTAuthentication',
-),'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
 }
 
 ROOT_URLCONF = 'Configuracion.urls'
@@ -104,7 +87,7 @@ DATABASES = {
         'PASSWORD': '265eba69762ac3d4e9404f4913a18173ddd23729c2ddac89b2c817b0fa696a09',
         'HOST': 'ec2-3-230-26-112.compute-1.amazonaws.com',
         'PORT': '5432',
-        'TEST': {'MIRROR': 'default',},
+        'TEST': {'MIRROR': 'default', },
     }
 }
 
@@ -151,5 +134,5 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-import django_heroku
+
 django_heroku.settings(locals())
